@@ -4,6 +4,7 @@ Auto-updating calendar of Arsenal fixtures (Premier League, Champions League, FA
 
 - Event title: `⚽ Arsenal vs Spurs (H)` / `⚽ Brighton vs Arsenal (A)`. Scores are never shown, even for finished games.
 - Location field: TV channel(s), or `TBD` until the broadcaster is announced.
+- Matches vs Leeds United get an alert 3 days before kickoff (change `ALERT_OPPONENTS` in the script).
 - Times are stored in UTC, so your calendar app shows your local time.
 
 ## Setup

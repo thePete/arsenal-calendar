@@ -20,6 +20,9 @@ COMPETITIONS = {
 }
 URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/{slug}/teams/{team}/schedule"
 MATCH_LENGTH = timedelta(hours=2)
+# Matches against these opponents get an alert ALERT_BEFORE kickoff (all others get none).
+ALERT_OPPONENTS = ["Leeds"]
+ALERT_BEFORE = "P3D"  # ISO 8601 duration: 3 days
 OUTPUT = os.environ.get("OUTPUT", "docs/arsenal.ics")
 
 
@@ -139,8 +142,16 @@ def build_vevent(ev, comp_name, stamp):
         f"SUMMARY:{esc(summary)}",
         f"LOCATION:{esc('📺 ' + tv_text)}",
         f"DESCRIPTION:{esc(chr(10).join(desc))}",
-        "END:VEVENT",
     ]
+    if any(k.lower() in opponent.lower() for k in ALERT_OPPONENTS):
+        lines += [
+            "BEGIN:VALARM",
+            "ACTION:DISPLAY",
+            f"DESCRIPTION:{esc(summary + ' in 3 days')}",
+            f"TRIGGER:-{ALERT_BEFORE}",
+            "END:VALARM",
+        ]
+    lines.append("END:VEVENT")
     return start, lines
 
 
