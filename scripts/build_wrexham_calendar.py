@@ -30,7 +30,7 @@ from zoneinfo import ZoneInfo
 from bs4 import BeautifulSoup
 
 TEAM_NAME = "We're Not Wrexham"
-SHORT_NAME = "We're Not Wrexham"   # used in event titles
+SHORT_NAME = "WNW"   # used in event titles
 SOCCER_INDEX = "https://midstatesportsleagues.com/soccer/"
 LEAGUE_URLS = []  # optional override, e.g. ["https://midstatesportsleagues.com/soccer/late-fall-wednesday-soccer/"]
 TM = "https://tourneymachine.com/Public/Results/"
@@ -110,9 +110,31 @@ def cell_name(td):
     return "TBD"
 
 
+def standings(soup):
+    """Map team id -> rank from the division standings table(s). Teams with no games yet get no rank."""
+    ranks = {}
+    for table in soup.select("table.tournamentResultsTable"):
+        header = [th.get_text(strip=True) for th in table.find_all("th")]
+        if not header or header[0] != "Team" or "W" not in header:
+            continue
+        rank = 0
+        for tr in table.find_all("tr"):
+            link = tr.find("a", href=re.compile(r"IDTeam="))
+            if not link:
+                continue
+            rank += 1
+            cells = [td.get_text(strip=True) for td in tr.find_all("td")]
+            played = sum(int(c) for c in cells[1:4] if c.isdigit())
+            tid = re.search(r"IDTeam=([A-Za-z0-9]+)", link["href"]).group(1)
+            if played:
+                ranks[tid] = rank
+    return ranks
+
+
 def games_in_division(tid, did, team_ids, league_name, page):
     html = fetch(f"{TM}Division.aspx?IDTournament={tid}&IDDivision={did}")
     soup = BeautifulSoup(html, "lxml")
+    ranks = standings(soup)
     heading = next((h.get_text(" ", strip=True) for h in soup.find_all("h1") if h.get_text(strip=True)), "")
     games = []
     for tr in soup.select("tr.schedule_row"):
@@ -137,6 +159,9 @@ def games_in_division(tid, did, team_ids, league_name, page):
         t1, t2 = tds[3], tds[6]
         ours_first = t1.get("data-teamid") in team_ids
         opponent = cell_name(t2 if ours_first else t1)
+        ours_td, opp_td = (t1, t2) if ours_first else (t2, t1)
+        our_rank = ranks.get(ours_td.get("data-teamid"))
+        opp_rank = ranks.get(opp_td.get("data-teamid"))
         s1, s2 = tds[4].get_text(strip=True), tds[5].get_text(strip=True)
         score = None
         if s1.isdigit() and s2.isdigit():
@@ -149,6 +174,8 @@ def games_in_division(tid, did, team_ids, league_name, page):
             "location": tds[2].get_text(" ", strip=True),
             "opponent": opponent,
             "score": score,
+            "our_rank": our_rank,
+            "opp_rank": opp_rank,
             "division": heading,
             "league": league_name,
             "page": page,
@@ -199,7 +226,10 @@ def vevent(g, stamp):
         result = "W" if us > them else "L" if us < them else "T"
         summary = f"⚽ {SHORT_NAME} {us}–{them} {opp_title} ({result}){field_txt}"
     else:
-        summary = f"⚽ {SHORT_NAME} vs {opp_title}{field_txt}"
+        # Upcoming games show current standings; finished games show the result instead.
+        us = f"{SHORT_NAME} (#{g['our_rank']})" if g.get("our_rank") else SHORT_NAME
+        them = f"{opp_title} (#{g['opp_rank']})" if g.get("opp_rank") else opp_title
+        summary = f"⚽ {us} vs {them}{field_txt}"
     desc = [f"Opponent: {g['opponent']}", f"Where: {g['location']}"]
     if g["league"]:
         desc.append(f"{g['league']} · {g['division']}".strip(" ·"))
