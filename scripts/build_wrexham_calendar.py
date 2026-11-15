@@ -39,9 +39,13 @@ GAME_LENGTH = timedelta(minutes=50)
 ALERT_BEFORE = None  # e.g. "PT1H" for a reminder 1 hour before each game
 OUTPUT = os.environ.get("OUTPUT", "docs/were-not-wrexham.ics")
 # Street addresses so the event location opens straight to directions.
+# Matched by keyword anywhere in the league's venue name ("Maplewood HS - Field 2",
+# "Maplewood High School, Field #2" both match "maplewood").
 # Venues not listed here use the venue name alone (maps apps usually find it).
 VENUE_ADDRESSES = {
-    "boost fit club": "Boost Fit Club, 11 Vaughns Gap Rd, Nashville, TN 37205",
+    "boost": "Boost Fit Club, 11 Vaughns Gap Rd, Nashville, TN 37205",
+    "maplewood": "Maplewood High School, 401 Walton Ln, Nashville, TN 37216",
+    "stratford": "Stratford High School, 1800 Stratford Ave, Nashville, TN 37216",
 }
 UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
 
@@ -179,7 +183,11 @@ def utc(dt):
 def venue_location(raw):
     """'Boost Fit Club - Field 3' -> street address (field number lives in the title)."""
     venue = re.sub(r"(?i)\s*[-,–]?\s*field\s*#?\s*\w+\s*$", "", raw).strip() or raw
-    return VENUE_ADDRESSES.get(venue.lower(), venue)
+    key = norm(venue)
+    for word, address in VENUE_ADDRESSES.items():
+        if norm(word) in key:
+            return address
+    return venue
 
 
 def vevent(g, stamp):
