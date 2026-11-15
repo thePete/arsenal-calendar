@@ -28,3 +28,16 @@ Use *subscribe*, not *import*; importing makes a one-time copy that won't update
 ## Tweaks
 
 Edit the top of `scripts/build_calendar.py`: `COMPETITIONS` to add or remove competitions, `MATCH_LENGTH` for event duration.
+
+---
+
+# We're Not Wrexham (rec soccer) calendar
+
+`docs/were-not-wrexham.ics` holds the team's Mid State Sports Leagues games, rebuilt every 6 hours by **Update We're Not Wrexham calendar**.
+
+Subscribe URL: `https://thepete.github.io/arsenal-calendar/were-not-wrexham.ics`
+
+- **New seasons are found automatically.** The script reads midstatesportsleagues.com/soccer/, opens every league page, and looks for the team name in each league's TourneyMachine schedule. No URL changes needed as long as the team keeps its name.
+- Between seasons (team not found) the calendar is left as is. Past games stay in the calendar when a new season starts.
+- Title: `⚽ We're Not Wrexham vs Opponent`, location is the field, 1-hour reminder. Scores are never shown.
+- If auto-discovery ever misses (new team name, league moved), set `TEAM_NAME` or `LEAGUE_URLS` at the top of `scripts/build_wrexham_calendar.py`.
