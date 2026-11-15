@@ -36,7 +36,7 @@ LEAGUE_URLS = []  # optional override, e.g. ["https://midstatesportsleagues.com/
 TM = "https://tourneymachine.com/Public/Results/"
 LOCAL_TZ = ZoneInfo("America/Chicago")
 GAME_LENGTH = timedelta(minutes=50)
-ALERT_BEFORE = "PT1H"  # reminder before each game; set to None for no reminder
+ALERT_BEFORE = None  # e.g. "PT1H" for a reminder 1 hour before each game
 OUTPUT = os.environ.get("OUTPUT", "docs/were-not-wrexham.ics")
 UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
 
