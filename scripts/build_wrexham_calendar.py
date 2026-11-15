@@ -14,7 +14,7 @@ To pin a specific league page instead, set LEAGUE_URLS below (or the
 LEAGUE_URLS environment variable, comma-separated).
 
 Past games already in the calendar are kept, so earlier seasons don't vanish
-when a new season starts. Scores are never shown.
+when a new season starts. Scores appear in the title once they're posted.
 
 Needs: beautifulsoup4, lxml.
 """
@@ -128,6 +128,10 @@ def games_in_division(tid, did, team_ids, league_name, page):
         t1, t2 = tds[3], tds[6]
         ours_first = t1.get("data-teamid") in team_ids
         opponent = cell_name(t2 if ours_first else t1)
+        s1, s2 = tds[4].get_text(strip=True), tds[5].get_text(strip=True)
+        score = None
+        if s1.isdigit() and s2.isdigit():
+            score = (int(s1), int(s2)) if ours_first else (int(s2), int(s1))
         games.append({
             "id": tr.get("data-gameid") or f"{did}-{when:%Y%m%d%H%M}",
             "start": when.replace(tzinfo=LOCAL_TZ) if timed else when.date(),
@@ -135,6 +139,7 @@ def games_in_division(tid, did, team_ids, league_name, page):
             "game_no": tds[0].get_text(strip=True),
             "location": tds[2].get_text(" ", strip=True),
             "opponent": opponent,
+            "score": score,
             "division": heading,
             "league": league_name,
             "page": page,
@@ -168,7 +173,14 @@ def utc(dt):
 
 def vevent(g, stamp):
     opp_title = re.sub(r"\s*\([^)]*\)\s*$", "", g["opponent"]) or g["opponent"]  # drop "(Red)" etc.
-    summary = f"⚽ {SHORT_NAME} vs {opp_title}"
+    field = re.search(r"(?i)field\s*#?\s*(\w+)", g["location"])
+    field_txt = f" · Field {field.group(1)}" if field else ""
+    if g.get("score"):
+        us, them = g["score"]
+        result = "W" if us > them else "L" if us < them else "T"
+        summary = f"⚽ {SHORT_NAME} {us}–{them} {opp_title} ({result}){field_txt}"
+    else:
+        summary = f"⚽ {SHORT_NAME} vs {opp_title}{field_txt}"
     desc = [f"Opponent: {g['opponent']}"]
     if g["league"]:
         desc.append(f"{g['league']} · {g['division']}".strip(" ·"))
