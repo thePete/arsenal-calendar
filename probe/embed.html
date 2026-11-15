@@ -1,0 +1,1286 @@
+
+<!DOCTYPE html>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Language" content="en"/>
+    <script>
+        function resize() {
+            var height = $('body').height();
+
+            window.parent.postMessage(["setHeight", height], "*");
+        }
+
+        function setStartSize(height) {
+            window.parent.postMessage(["setHeight", height], "*");
+        }
+
+    </script>
+    
+<title>SportsEngine Tourney</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href='//fonts.googleapis.com/css?family=Lato:400,300,700,300italic' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css2?family=Figtree" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet" />
+<link href="./css/results.min.css?v=2025-02-25" rel="stylesheet" media="screen" />
+<link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen,print">
+<link href="../../css/glyphicons.css" rel="stylesheet" media="screen,print">
+<link href="../../css/font-awesome.min.css" rel="stylesheet">
+<link href="../../css/sports.css" rel="stylesheet" media="screen,print">
+<link href="../../css/gear-font.css" rel="stylesheet" media="screen,print">
+<link href="../../css/public.css?v=2025-09-16" rel="stylesheet" media="screen,print">
+<link href="../../css/components/se-play-chip.css?v=2025-03-17" rel="Stylesheet" type="text/css" />
+
+<script type='text/javascript' src='../jquery/jquery-1.5.2.min.js'></script>
+
+<link href='https://midstatesportsleagues.com/external/mssl-tm.css' rel='stylesheet' media='screen,print'>
+
+<script async='async' src='https://securepubads.g.doubleclick.net/tag/js/gpt.js'></script>
+<script>
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+</script>
+
+<script>
+    // Declare any slots initially present on the page that would not be dynamic
+    googletag.cmd.push(function() {
+        googletag.pubads().enableSingleRequest();
+        googletag.pubads().disableInitialLoad();
+        googletag.pubads().setTargeting("Tournament_ID", "h202609281815321263a25d52d99104c");googletag.pubads().setTargeting("Sport", "Soccer");
+        googletag.enableServices();
+    });
+
+    googletag.cmd.push(function() {
+        var map1 = googletag.sizeMapping()
+            .addSize([980, 0], [[970, 90], [728, 90], [468, 60]])
+            .addSize([738, 0], [[728, 90], [468, 60]])
+            .addSize([478, 0], [468, 60])
+            .addSize([320, 0], [[320, 100], [320, 50], [300, 250], [336, 228]])
+            .addSize([0, 0], [])
+            .build();
+
+        var slot1 = googletag.defineSlot('/5727661/Desktop/tourneymachine', [[728, 90], [970, 90], [468, 60]], 'headerAd')
+            .defineSizeMapping(map1)
+            .set('sizeMap', map1)
+            .addService(googletag.pubads());
+        var slot2 = googletag.defineSlot('/5727661/Desktop/tourneymachine', [[320, 50], [300, 50], [300, 250], [336, 228]], 'footerAd')
+            .defineSizeMapping(map1)
+            .set('sizeMap', map1)
+            .addService(googletag.pubads());
+        googletag.display('headerAd');
+        googletag.display('footerAd');
+
+        // travelAdSlot#
+        // attractionsAdSlot#
+        // mealsAdSlot#
+        // # = 1 -> 6
+        var adSlots = [];
+        for (var i = 1; i <= 6; i++) {
+            var travelSlot = googletag.defineSlot('/5727661/Desktop/tourneymachine', [[728, 90], [970, 90], [468, 60]], "travelAdSlot" + i)
+                .defineSizeMapping(map1)
+                .set('sizeMap', map1)
+                .addService(googletag.pubads());
+            // travel gets 1 - 6
+            adSlots[i] = travelSlot;
+            googletag.display("travelAdSlot" + i);
+
+            var attractionsSlot = googletag.defineSlot('/5727661/Desktop/tourneymachine', [[728, 90], [970, 90], [468, 60]], "attractionsAdSlot" + i)
+                .defineSizeMapping(map1)
+                .set('sizeMap', map1)
+                .addService(googletag.pubads());
+            // attractions gets 7 - 12
+            adSlots[i + 6] = attractionsSlot;
+            googletag.display("attractionsAdSlot" + i);
+
+            var mealsSlot = googletag.defineSlot('/5727661/Desktop/tourneymachine', [[728, 90], [970, 90], [468, 60]], "mealsAdSlot" + i)
+                .defineSizeMapping(map1)
+                .set('sizeMap', map1)
+                .addService(googletag.pubads());
+            // meals gets 13 - 18
+            adSlots[i + 12] = mealsSlot;
+            googletag.display("mealsAdSlot" + i);
+        }
+    });
+    (function() {
+        var prebidConf = document.createElement("script");
+        prebidConf.type = "text/javascript";
+        prebidConf.async = true;
+        var isHttps = 'https:' === document.location.protocol;
+        prebidConf.src = "//storage.googleapis.com/didna_hb/sports_engine/tourneymachine/prebid_config.js";
+        var prebidConfTargetEl = document.getElementsByTagName("head")[0];
+        prebidConfTargetEl.insertBefore(prebidConf, prebidConfTargetEl.firstChild);
+    })();
+</script>
+
+
+
+<script type="text/javascript">
+
+    function showClub(idClub) {
+
+        if (idClub != '') {
+            $("[id$='ui_Date_DropDownList']").val('');
+            showDate('');
+            $("[id$='ui_Team_DropDownList']").val('');
+            showTeam('');
+        }
+        if (idClub == '') {
+            $('.schedule_row').show();
+            $('.schedule_header_row').show();
+            $('.schedule_row_date').hide();
+        } else {
+            $('.schedule_row').hide();
+            $('.club_' + idClub).show();
+            $('.schedule_header_row').hide();
+            $('.schedule_row_date').show();
+        }
+    }
+
+    function showTeam(idTeam) {
+        if (idTeam != '') {
+            $("[id$='ui_Date_DropDownList']").val('');
+            showDate('');
+            $("[id$='ui_Club_DropDownList']").val('');
+            showClub('');
+        }
+
+        $('.printScheduleLink').attr('href', printScheduleLinkTemplate.replace("&IDTeam=", "&IDTeam=" + idTeam));
+        $('.printPoolAndScheduleLink')
+            .attr('href', printPoolAndScheduleLinkTemplate.replace("&IDTeam=", "&IDTeam=" + idTeam));
+
+        if (idTeam == '') {
+            $('.schedule_row').show();
+            $('.schedule_header_row').show();
+            $('.schedule_row_date').hide();
+        } else {
+            $('.schedule_row').hide();
+            $('.team_' + idTeam).show();
+            $('.schedule_header_row').hide();
+            $('.schedule_row_date').show();
+        }
+    }
+
+    function showDate(dateClass) {
+        if (dateClass != '') {
+            $("[id$='ui_Team_DropDownList']").val('');
+            showTeam('');
+            $("[id$='ui_Club_DropDownList']").val('');
+            showClub('');
+        }
+
+        $('.printScheduleLink').attr('href', printScheduleLinkTemplate.replace("&Date=", "&Date=" + dateClass));
+        $('.printPoolAndScheduleLink')
+            .attr('href', printPoolAndScheduleLinkTemplate.replace("&Date=", "&Date=" + dateClass));
+
+        if (dateClass == '') {
+            $('.schedule_row').show();
+            $('.schedule_header_row').show();
+        } else {
+            $('.schedule_row').hide();
+            $('.schedule_header_row').hide();
+            $('.' + dateClass).show();
+        }
+    }
+</script>
+    <link rel="icon" href="https://assets.tourneymachine.com/images/favicons/favicon.ico" sizes="any" /><!-- 16,32,48,64,128 -->
+<link rel="apple-touch-icon" href="https://assets.tourneymachine.com/images/favicons/app-icon-180x180.png" />
+<link rel="manifest" href="https://assets.tourneymachine.com/images/favicons/site.webmanifest" crossorigin />
+
+
+
+<script type="text/javascript">
+    $(function () {
+        if ($('[data-toggle="tooltip"]').length > 0) {
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+    })
+</script>
+
+
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29582147-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') +
+            '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+<!-- Google Tag Manager -->
+<script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            'gtm.start':
+                new Date().getTime(),
+            event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-TZLR4S3');
+</script>
+<!--End Google Tag Manager-->
+<!-- Google tag (gtag.js) -->
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    //gtag('js', new Date());
+
+    gtag('config', 'UA-29582147-1');
+</script>
+
+<!-- OneTrust Cookies Consent Notice start for http://tourneymachine.com  -->
+    <script>
+        if (window.self === window.top) {
+            try {
+
+                var otSDKSscript = document.createElement('script');
+                otSDKSscript.async = true;
+                otSDKSscript.id = "otSDKSscript";
+                otSDKSscript.src = 'https://cdn.cookielaw.org/consent/01a0d5a1-e185-74e7-8544-9983e4b75413/otSDKStub.js';
+                otSDKSscript.setAttribute('type', 'text/javascript');
+                otSDKSscript.setAttribute('charset', 'UTF-8');
+                otSDKSscript.setAttribute('data-domain-script', '01a0d5a1-e185-74e7-8544-9983e4b75413');
+                otSDKSscript.setAttribute('integrity', 'sha384-dwIVyntEVROYouft4VnhWG0ZwdgVuWdm+jjMznuVj7dT78+Cl1OMjSpCruL06qHc');
+                otSDKSscript.setAttribute('crossorigin', 'anonymous');
+                document.head.appendChild(otSDKSscript);
+
+                function OptanonWrapper() {
+                    if (typeof OneTrust !== 'undefined' && typeof OneTrust.Initialize === 'function') {
+                        OneTrust.Initialize();// Ensures OneTrust uses updated dataSubjectParams and preferences.
+                        console.log('OneTrust.Initialize() called from OptanonWrapper');
+                    } else {
+                        console.warn('OneTrust not ready when OptanonWrapper ran');
+                    }
+
+                    if (typeof OneTrust != 'undefined'
+                        && typeof OneTrust.getGeolocationData == 'function'
+                        && OneTrust.getGeolocationData().country == 'US') {
+
+                    $('#ot-sdk-img').show();
+                    }
+                }
+
+                window.OnetrustActiveGroups = window.OnetrustActiveGroups || '';
+
+                var otCCPAiscript = document.createElement('script');
+                otCCPAiscript.async = true;
+                otCCPAiscript.src = 'https://cdn.cookielaw.org/opt-out/otCCPAiab.js';
+                otCCPAiscript.id = 'privacyCookie';
+                otCCPAiscript.setAttribute('type', 'text/javascript');
+                otCCPAiscript.setAttribute('charset', 'UTF-8');
+                otCCPAiscript.setAttribute('ccpa-opt-out-ids', 'USP');
+                otCCPAiscript.setAttribute('ccpa-opt-out-geo', 'US');
+                otCCPAiscript.setAttribute('ccpa-opt-out-lspa', 'false');
+                document.head.appendChild(otCCPAiscript);
+
+                document.getElementById("otSDKSscript").addEventListener("load", function() {
+                    document.head.appendChild(otCCPAiscript);
+                });
+
+            } catch (err) {
+                console.error("GTM OneTrust script error:", err);
+            }
+        }
+    </script>
+<!-- OneTrust Cookies Consent Notice end for Tourney Machine - Tournament & League Management Software, Scheduling & Communication  -->
+
+</head>
+<body class="tournamentPage" style="background-color: white;" onunload="setStartSize(5000);" onload="resize();" onresize="resize();">
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+  <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TZLR4S3"
+          height="0" width="0" style="display: none; visibility: hidden">
+  </iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) --><form name="form1" method="post" action="./TournamentEmbed.aspx?IDTournament=h202609281815321263a25d52d99104c" id="form1">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="B0DC1ACB" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="1ypPjBPvw9Mluh7vK2BbI/mcVjajcJZcwASGWH5HYbjnoGhznJLk4Kr8f9b6nlTiDGDqRp5B0bb4ORi9vnQClUrHWFa1QYxLfwzbaNwWX+etxZYnnu7piWnd7+4i4zdDsYqld8oys1391B6FxBCc4HidCsCDmEcPDrB5urnC+peQLwDUOybRPr0oXCl9eSx3WgmXKvPUi6h2yJ5BumelrpDRoSLhf3+s4aS63g4wza+nhnHWYE/Wxuund9t4fQOpW+EUn0H6fFFHo9VBGYfB0Hb8/habmWx+jQWpyCu7UstAMm7TF3T6oYpvWaEw+H4JB3MTPBfGRLPtVOMeHvKEJqPmaj1xYfmCJQvfu6Zd4PzZCyxciHP4RhArm9RQ+6fSFwAE/hYQDG9rU/A3ctbZScW304hX1w0CyMepfH3GZF0muBd0fZ9+rqD1A3Z5SUW0RZCb0iUs/kQJn48ReJHXB+JeSzdNGOH8gkLgY4oEdObG/bqiXx+z5jsm3V4FeaEewnTj1qJMP4B5hFKhxMrYJ0lS3xxc+LkpSFTXld8QojEp0D2Bn3WAe7BMQJ0johr2qDOejD2tbNY6Cw2s6V8Jx2wP+Eck5yJeekRkZRgEcSRIXt+4nxRRoKiuLNhc74gh634leu9BdnGKo6ghFOlenPY/lpde7LZGWNPV9NZAmZ5kH0sIgcwzGnOsOpwZep2fig09LCXUs8GhEUPwk55GSqHxeMIXUsXN1kBA/1wWVTtZ0hHXWMRrPTQTR0PAC1rOuwSCBz8BxIELQrxVFSR6tvx6Wm3beqBMp+Ggq7IjHbyliJJzuB+NJixhziGzzyDGSl3f/8UB9UQDE19FLJZfqXHJAms9vnYBkVvUkoqzQYf8CSlb" />
+</div>
+    <div class="tournamentPageContainer" style="background-color: white;">
+        
+
+<script type="text/javascript">
+    $(function () {
+        $(document).on('click',
+            '.js-hotel-click-tracking',
+            function (e) {
+                e.preventDefault();
+
+                var url = $(this).attr('href');
+                gtag('event', 'hotel-redirect', {
+                    event_category: 'hotel-link-redirect',
+                    event_action: 'hotel-link-click',
+                    event_redirect_url: url,
+                    event_tournament_id: 'h202609281815321263a25d52d99104c'
+                });
+
+                var target = $(this).attr('target');
+                window.open(url, target || '_blank');
+            });
+    });
+</script>
+
+<style>
+    .container {
+        width: 100%;
+    }
+</style>
+<div id="tournamentHeader">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 logo-link">
+                <a href="../../Home.aspx" target="_blank">
+                    <img id="tournamentHeader1_sportsengine_tourney_logo" class="sportsengine-tourney-logo logo-desktop" alt="SportsEngine Tourney" src="https://assets.tourneymachine.com/images/logos/sportsengine-tourney-reverse.svg" style="border-width:0px;" />
+                    <img id="tournamentHeader1_se_tourney_logo" class="se-tourney-logo logo-mobile" alt="SportsEngine Tourney" src="https://assets.tourneymachine.com/images/logos/se-tourney-reverse.svg" style="border-width:0px;" />
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="tournamentHeaderAdSpot hidden-print">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <ins class="adsbygoogle"
+                        data-ad-client="ca-pub-2541437020238283"
+                        data-ad-slot="9841989252"
+                        style="margin-top: 75px"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="container">
+    <div id="tournamentSport" class="row">
+        <div class="col-xs-12">
+            <span class='sports white soccer'></span>&nbsp;&nbsp;Soccer
+        </div>
+    </div>
+</div>
+
+<div class="container tournamentContainer">
+    <div class="row tournamentOverview">
+        <div class="col-xs-2 hidden-xs">
+            <a id="tournamentHeader1_ui_Logo_HyperLink" href="TournamentEmbed.aspx?IDTournament=h202609281815321263a25d52d99104c"><img src="https://assets.tourneymachine.com/Customer/h201602251606580297d35fcf4b3d14c/mssl-tm-140.png" id="tournamentHeader1_logoUrl" width="140" height="140" alt="tournament-logo" class="tournamentLogo img-thumbnail img-responsive" /></a>
+        </div>
+        <div class="col-xs-7">
+            <h1 class="visible-print">
+                
+            </h1>
+            <h1>
+                <a id="tournamentHeader1_ui_Tournament_HyperLink" data-testid="tournament-search-results-tournament-header" href="TournamentEmbed.aspx?IDTournament=h202609281815321263a25d52d99104c">LATE Fall Wednesday Soccer</a>
+            </h1>
+            <div class="tournamentDates">
+                Nov 4, 2026 - Feb 3, 2027
+            </div>
+            <div class="tournamentLocation">
+                Nashville, TN
+            </div>
+            <div id="app-share-buttons">
+                
+                
+                    <button type="button" class="btn btn-sm btn-green tournamentSecondaryButton" data-target="#tournamentAppModal" data-toggle="modal">
+                        <span class="glyphicons iphone"></span>Download App
+                    </button>
+                
+                
+                    <button type="button" id="tournamentNotificationsButton" class="btn btn-sm btn-green tournamentSecondaryButton" data-target="#tournamentNotificationsModal" data-toggle="modal">
+                        <span class="glyphicons comments"></span>Get Notified
+                    </button>
+                
+                <button type="button" class="btn btn-sm btn-greyLight tournamentSecondaryButton" data-target="#tournamentShareModal"
+                    data-toggle="modal">
+                    <span class="glyphicons bullhorn"></span>Share
+                </button>
+            </div>
+        </div>
+        <div class="col-xs-3 pull-right" id="tournament-info-buttons">
+            
+            
+            
+            <a id="tournamentHeader1_ui_HotelLink_HyperLink" class="btn btn-green btn-block tournamentButtonPrimary tournamentButtonPrimarySpecial pull-right js-hotel-click-tracking" href="https://tourneymachine.hotelplanner.com/Search/?City=11 Vaughns Gap Rd, Nashville, TN 37205&amp;CheckInDate1=11/15/2026&amp;OutDate=02/03/2027&amp;JobCode=tourney-hotels&amp;sc=nbc-tourney&amp;Custom4=&amp;Custom5=h202609281815321263a25d52d99104c&amp;Custom7=h201602251606580297d35fcf4b3d14c" target="_blank">
+                    <span class="glyphicons building"></span>Hotels
+                </a>
+            
+            
+            <button type="button" id="tournamentButtonComplexes" data-target="#tournamentComplexesModal" data-toggle="modal"
+                class="btn btn-greyLight btn-block tournamentButtonPrimary tournamentButtonPrimarySpecial pull-right">
+                <span class="tourney places"></span>
+                Places
+            </button>
+            
+            
+            <div id="tournamentResultsPrintBranding" class="visible-print">
+                <div>
+                    <img src="https://assets.tourneymachine.com/images/logos/se-tourney-positive.svg" alt="SportsEngine Tourney"
+                        width="201" height="76" class="img-responsive " />
+                </div>
+                <p>
+                    <span class="glyphicons iphone"></span>Install the mobile app for this event at:
+                    tourneymachine.com
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Tournament Modal Windows -->
+<div id="fb-root">
+</div>
+<div id="tournamentShareModal" class="modal fade">
+    <div class="modal-dialog modal-wide">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: #ffffff;">
+                    &times;
+                </button>
+                <div class="modal-title">
+                    <span class="glyphicons bullhorn"></span>Share This Tournament
+                </div>
+            </div>
+            <div id="" class="modal-body">
+                <div class="row">
+                    <div class="form-group col-xs-9">
+                        <label for="link">
+                            Link
+                        </label>
+                        <input type="text" class="form-control" id="tournamentUrl" value="https://tourneymachine.com/R187833" onfocus="this.select()" />
+                    </div>
+                    <div class="form-group col-xs-3">
+                        <label for="">
+                            &nbsp;
+                        </label>
+                        <button type="button" class="btn btn-green form-control"
+                            onclick="$('#tournamentUrl').select(); navigator.clipboard.writeText($('#tournamentUrl').val()); return false;">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <br />
+                </div>
+                <p class="clearfix">
+                    <table>
+                        <tr>
+                            <td>
+                                <a href="https://twitter.com/share?text=LATE Fall Wednesday Soccer https://tourneymachine.com/R187833"
+                                    class="twitter-share-button" data-size="large" data-related="tourneymachine"
+                                    data-count="none">Tweet
+                                </a>
+
+                                <script>
+                                    !function (d, s, id) {
+                                        var js,
+                                            fjs = d.getElementsByTagName(s)[0],
+                                            p = /^http:/.test(d.location) ? 'http' : 'https';
+                                        if (!d.getElementById(id)) {
+                                            js = d.createElement(s);
+                                            js.id = id;
+                                            js.src = p + '://platform.twitter.com/widgets.js';
+                                            fjs.parentNode.insertBefore(js, fjs);
+                                        }
+                                    }(document, 'script', 'twitter-wjs');
+                                </script>
+
+                            </td>
+                            <td style="padding-left: 10px;">
+                                <iframe src="https://www.facebook.com/plugins/like.php?href=https://tourneymachine.com/R187833&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=20"
+                                    scrolling="no" frameborder="0" style="border: none; overflow: hidden; height: 20px;"
+                                    allowtransparency="true"></iframe>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tournamentNotificationsModal" class="modal fade">
+    <div class="modal-dialog modal-wide" style="width: 630px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title">
+                    <span class="glyphicons comments"></span>Get Notifications
+                </div>
+            </div>
+            <div id="Div1" class="modal-body">
+                <h3>Select a Team</h3>
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        <label for="team">
+                            Team
+                        </label>
+                        <select name="tournamentHeader1$ui_TextTeam_DropDownList" id="tournamentHeader1_ui_TextTeam_DropDownList" name="team" class="form-control">
+	<option value=""></option>
+	<option value="h20261030052405611b1a238ab7f5243">(Taylor&#39;s Version) (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405668c64030c68e0641">50 Shades of Green (Division: Co-Ed Indoor)</option>
+	<option value="h20261102061507327ed3fd8359c5645">A team (Division: Co-Ed Indoor)</option>
+	<option value="h20261104225344509f6e91f988c2e49">A team (Division: Men&#39;s Indoor)</option>
+	<option value="h202610300524054767c215209929748">AFC Nashville City United (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405148c09ff460050d48">Avengers FC (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405177284814aad6e14c">Balls to the Walls (Red) (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405423d5273ba0f24d44">Cursed by the Crossbar (Division: Co-Ed Indoor)</option>
+	<option value="h202610300524052598f049e2fb90d4b">Franks Faves (Division: Co-Ed Indoor)</option>
+	<option value="h2026103005164762799072ecf7c6f44">Just A Bunch of Dudes (Division: Men&#39;s Indoor)</option>
+	<option value="h20261030051647538a25b3eb02b184e">Killer Bunnies FC (Division: Men&#39;s Indoor)</option>
+	<option value="h2026103005240520259a7c3e5c20c43">Kiss My Pass (BLUE) (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405230a68aa76c75c04b">Knead for Speed (Division: Co-Ed Indoor)</option>
+	<option value="h20261030051647583ce372bc1d26241">Linkedin Warriors (Division: Men&#39;s Indoor)</option>
+	<option value="h2026103005164748946fc1d5a2a5440">Madison Fc (Division: Men&#39;s Indoor)</option>
+	<option value="h202610300524052865e35f3eb0fdd4f">Mid State Parker (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405694081100788a8f48">Nashville Opossums (Division: Co-Ed Indoor)</option>
+	<option value="h202610300516475149db2e9ef930b42">NSD (Division: Men&#39;s Indoor)</option>
+	<option value="h202611020620311931e4fff61714c45">Rajasthan Rangers (Division: Men&#39;s Indoor)</option>
+	<option value="h202610300524053123133edbc994044">Saprissa (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405115299a632240764f">Scrubs (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405340b5c5da4f1f0d46">Seasonal Allergies (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405449ca65f384930f48">Snappy Feet (Division: Co-Ed Indoor)</option>
+	<option value="h20261030051647561a991257228274f">Tape Worms (Division: Men&#39;s Indoor)</option>
+	<option value="h2026110522525812466a3ad5db02244">Team (Division: Men&#39;s Indoor)</option>
+	<option value="h20261030052405532197c1ee7458546">Team In (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405395194a5deab5d844">Top Gun (Green) (Division: Co-Ed Indoor)</option>
+	<option value="h202611042250598249d6a985e108745">Troopz FC (Division: Men&#39;s Indoor)</option>
+	<option value="h202610300524057219df33d5a153f40">Unicorn Land (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405503705c2b7fbf5244">Unsupervised Adults (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405368af908ad69f784c">Vodka Juniors (blue) (Division: Co-Ed Indoor)</option>
+	<option value="h20261110202526561b34b6ca9b65244">We’re Not Wrexham (Division: Co-Ed Indoor)</option>
+	<option value="h20261030052405561f7c8c010b56f43">Wednesday Meows (Black) (Division: Co-Ed Indoor)</option>
+
+</select>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="notificationsFor">
+                            Notify For
+                        </label>
+                        <select name="tournamentHeader1$ui_TextAllDivisionGamesFlag_DropDownList" id="tournamentHeader1_ui_TextAllDivisionGamesFlag_DropDownList" name="notificationsFor" class="form-control">
+	<option value=""></option>
+	<option value="0">Selected team only</option>
+	<option value="1">All teams in your teams division</option>
+
+</select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 ">
+                        <div class="checkbox">
+                            <label id="teamRepresentativeContainer" for="teamRepresentative">
+                                <input type="checkbox" id="teamRepresentative" name="teamRepresentative" value="1" />
+                                I'm a team representative (Coach/Team Manager)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 ">
+                        <div class="checkbox">
+                            <label id="sePlayNotificationsContainer" for="sePlayNotifications">
+                                <input type="checkbox" id="sePlayNotifications" name="sePlayNotifications" value="1" />
+                                Get <strong>SportsEngine Play</strong> notifications for news, updates, and live streams
+                                <div class="modalSmallText">(Email Only)</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="modalTitleWithDisclaimer">How do you want to get notifications</h3>
+                <p class="modalSmallText">
+                    Add your phone number and/or email to get notifications.
+                </p>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <label for="email">
+                            By Email
+                        </label>
+                        <input type="email" id="email" name="email" class="form-control" value=""
+                            placeholder="Enter your email address" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <label for="mobileNumber">
+                            By Text message (SMS)
+                        </label>
+                        <input type="tel" id="mobileNumber" name="mobileNumber" class="form-control" value=""
+                            placeholder="(   ) XXX-XXXX" />
+                        <p class="modalSmallText">
+                            *Message and data rates may apply. Message frequency varies. Text STOP to cancel.
+                            <a href="https://www.sportsengine.com/privacy-center/privacy-policy/" target="_blank">Privacy Policy</a> /
+                            <a href="https://www.sportsengine.com/privacy-center/terms-of-use/" target="_blank">Terms of Use</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="notificationError" class="alert alert-danger hidden">Error</div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-xs-12">
+                        <table>
+                            <tr>
+                                <td style="vertical-align: top;">
+                                    <button id="btn-notifications-signup" type="submit" class="btn btn-green" onclick="notificationSignUp();return false;">
+                                        Sign Me Up
+                                    </button>
+                                </td>
+                                <td style="line-height: 12pt; padding-left: 10px;">
+                                    <span class="error" id='notificationSignUpMessage'></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tournamentAppModal" class="modal fade">
+    <div class="modal-dialog modal-wide">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title">
+                    <span class="glyphicons iphone"></span>Follow On Your Phone
+                </div>
+            </div>
+            <div id="Div2" class="modal-body">
+                <h3>View in Mobile Browser</h3>
+                <p>
+                    Enter your mobile phone number or email address. We'll send a link directly to your
+                    phone for this tournament.
+                </p>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <label for="mobileNumber">
+                            Mobile Number
+                        </label>
+                        <input type="tel" id="mobileNumberApp" name="mobileNumber" class="form-control" placeholder="(   ) XXX-XXXX" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group  col-xs-12">
+                        or
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        <label for="mobileNumber">
+                            Email
+                        </label>
+                        <input type="tel" id="emailApp" name="email" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group  col-xs-12">
+                        <br />
+                        <table>
+                            <tr>
+                                <td style="vertical-align: top;">
+                                    <button type="submit" class="btn btn-green" onclick="webAppSignUp();return false;">
+                                        Send Link
+                                    </button>
+                                </td>
+                                <td style="line-height: 12pt; padding-left: 10px;">
+                                    <span class="error" id='webAppSignUpMessage'></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tournamentGameCastModal" class="modal fade">
+    <div class="modal-dialog modal-wide" style="width: 1360px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title">
+                    <span class="glyphicons play_button"></span>Game Cast
+                </div>
+            </div>
+            <div id="Div4" class="modal-body">
+                <iframe id="gamecast" style="width: 1300px; height: 800px;"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tournamentDocumentsModal" class="modal fade">
+    <div class="modal-dialog modal-wide">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title">
+                    <span class="glyphicons notes"></span>Documents
+                </div>
+            </div>
+            <div id="Div5" class="modal-body">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="tournamentScorePostModal" class="modal fade">
+    <div class="modal-dialog modal-wide">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title">
+                    <span class="glyphicons edit"></span>Post Score
+                </div>
+            </div>
+            <div id="Div6" class="modal-body">
+                <table>
+                    <tr>
+                        <td>
+                            <span id="scorePostTeam1"></span>
+                        </td>
+                        <td style="width: 50px;"></td>
+                        <td style="text-align: center;">
+                            <input type="text" name="team1Score" id="scorePostTeam1Score" style="width: 50px;" />
+                        </td>
+                        <td style="width: 100px;"></td>
+                        <td style="text-align: left;">
+                            <button type="submit" class="btn btn-green" onclick="postScore();return false;">
+                                Post Score
+                            </button>
+                            <input type="hidden" name="scorePostIDGame" id="scorePostIDGame" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span id="scorePostTeam2"></span>
+                        </td>
+                        <td style="width: 50px;"></td>
+                        <td style="text-align: center;">
+                            <input type="text" name="team2Score" id="scorePostTeam2Score" style="width: 50px;" />
+                        </td>
+                        <td style="width: 100px;"></td>
+                        <td style="text-align: center;">
+                            <span id="scorePostError" style="color: Red;"></span>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function notificationSignUp() {
+        $("#btn-notifications-signup").prop('disabled', true);
+        clearNotificationErrors();
+
+        formData = {
+            idTournament: getParameterByName('IDTournament'),
+            idTeam: $("[id$='ui_TextTeam_DropDownList']").val(),
+            divisionFlag: $("[id$='ui_TextAllDivisionGamesFlag_DropDownList']").val(),
+            teamRepText: $("#teamRepresentative").prop('checked'),
+            sePlayNotificationsText: $("#sePlayNotifications").prop('checked'),
+            mobilePhone: $("#mobileNumber").val(),
+            emailText: $("#email").val()
+        };
+
+        if (formData.sePlayNotificationsText && !isEmailValid(formData.emailText)) {
+            showSePlayEmailError();
+            $("#btn-notifications-signup").prop('disabled', false);
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: 'Tournament.aspx/NotificationSignUp',
+            data: JSON.stringify(formData),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (msg) {
+                response = msg.d;
+                $("#btn-notifications-signup").html("THANK YOU!");
+                setTimeout(function () {
+                    $("#tournamentNotificationsModal").modal("hide");
+                    $("[id$='ui_TextTeam_DropDownList']").val("");
+                    $("[id$='ui_TextAllDivisionGamesFlag_DropDownList']").val("");
+                    $("#teamRepresentative").prop("checked", false);
+                    $("mobileNumber").val("");
+                    $("#email").val("");
+                    $("#notificationSignUpMessage").html("");
+                },
+                    1000);
+            },
+            error: function (response) {
+                showNotificationError(response?.responseJSON?.Message);
+            }
+        });
+
+        $("#btn-notifications-signup").html("Sign Me Up").prop("disabled", false);
+        return false;
+    }
+
+    function webAppSignUp() {
+        idTournament = getParameterByName('IDTournament');
+        mobilePhone = $("#mobileNumberApp").val();
+        emailText = $("#emailApp").val();
+        jsonData = '{ idTournament: "' +
+            idTournament +
+            '", mobilePhone: "' +
+            mobilePhone +
+            '", emailText: "' +
+            emailText +
+            '" }';
+
+        $.ajax({
+            type: 'POST',
+            url: 'Tournament.aspx/WebAppSignUp',
+            data: jsonData,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (msg) {
+                response = msg.d;
+                message = response;
+                color = '#92002d';
+                if (response == 'Success') {
+                    message =
+                        'A link to the web app has been sent.<br /><br />You may also get the app by going to www.tourneymachine.com on your phone and selecting Follow a Tournament.';
+                    color = '#22a258';
+                }
+                $("#webAppSignUpMessage").css('color', color)
+                $("#webAppSignUpMessage").html(message);
+            },
+            error: function (a, b, c) {
+                alert(b);
+            }
+        });
+
+        return false;
+    }
+
+    function scorePostFormSetup(team1, team2, team1Score, team2Score, idGame) {
+        $('#scorePostTeam1').text(team1);
+        $('#scorePostTeam2').text(team2);
+        $('#scorePostTeam1Score').val(team1Score);
+        $('#scorePostTeam2Score').val(team2Score);
+        $('#scorePostIDGame').val(idGame)
+    }
+
+    function postScore() {
+        idTournament = getParameterByName('IDTournament');
+        idGame = $('#scorePostIDGame').val();
+        score1 = +$('#scorePostTeam1Score').val();
+        score2 = +$('#scorePostTeam2Score').val();
+        var scoreData = { score1: score1, score2: score2 };
+        var finalizedData = { isFinalized: true };
+
+        $.ajax({
+            type: 'PUT',
+            url: 'https://api.tourneymachine.com/v2/tournaments/' + idTournament + "/games/" + idGame + "/score",
+            data: JSON.stringify(scoreData),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (scoreResponse) {
+                if (scoreResponse.result.score1 == scoreData.score1 && scoreResponse.result.score2 == scoreData.score2) {
+                    $.ajax({
+                        type: 'PUT',
+                        url: 'https://api.tourneymachine.com/v2/tournaments/' + idTournament + "/games/" + idGame + "/finalizedStatus",
+                        data: JSON.stringify(finalizedData),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (finalizeResponse) {
+                            if (finalizeResponse.result.isFinalized == finalizedData.isFinalized) {
+                                $('#' + $('#scorePostIDGame').val() + "_1").text($('#scorePostTeam1Score').val());
+                                $('#' + $('#scorePostIDGame').val() + "_2").text($('#scorePostTeam2Score').val());
+                                $("#tournamentScorePostModal").modal('hide');
+                                $("#PostScore_" + idGame).hide();
+                            } else {
+                                $('#scorePostError').text('Error posting score.');
+                            }
+                        },
+                        error: function () {
+                            $('#scorePostError').text('Error posting score.');
+                        }
+                    });
+                } else {
+                    $('#scorePostError').text('Error posting score.');
+                }
+            },
+            error: function () {
+                $('#scorePostError').text('Error posting score.');
+            }
+        });
+
+        return false;
+    }
+
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regex = new RegExp("[\\?&]" + name.toLowerCase() + "=([^&#]*)"),
+            results = regex.exec(location.search.toLowerCase());
+        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    function isEmailValid(email) {
+        // use same regex as POST method in Tournament.aspx/NotificationSignUp
+        var regex = new RegExp("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$", "i");
+        return regex.test(email);
+    }
+
+    function clearNotificationErrors() {
+        $('#email').closest('.form-group').toggleClass('has-error', false);
+        $('#notificationError').toggleClass('hidden', true);
+    }
+
+    function showNotificationError(message) {
+        $('#notificationError').text(message);
+        $('#notificationError').toggleClass('hidden', false);
+    }
+
+    function showSePlayEmailError() {
+        $('#email').closest('.form-group').toggleClass('has-error', true);
+        showNotificationError("To get SportsEngine Play notifications make sure to add a valid email address");
+    }
+</script>
+<div id="tournamentComplexesModal" class="modal fade">
+    <div class="modal-dialog modal-wide">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title">
+                    <i class="tourney places"></i>
+                    Places
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div id="map-canvas-complexes" style="width: 100%; height: 200px; margin-bottom: 10px;"></div>
+                        <div class="panel panel-default panel-places complexList" data-type="complex">
+                            <div class="panel-heading panel-heading-custom">
+                                <h3>
+                                    <i class="tourney stadium"></i>
+                                    Complexes
+                                </h3>
+                            </div>
+                            <div class="list-group">
+                                
+                                <div class="list-group-item js-list-group-item-place" data-id="h20260928181637357ee8252fcd12544">
+                                    <h4>Boost Fit Club</h4>
+                                    <button type="button" class="btn btn-success btn-toggle pull-right">
+                                        <i class="fa fa-map-marker"></i>
+                                    </button>
+                                </div>
+                                <div class="list-group-item-dropdown hidden">
+                                    
+                                    <a href="http://maps.google.com/maps?q=11%20Vaughns%20Gap%20Rd%20Nashville,%20TN%2037205" target="_blank">
+                                        <address>
+                                            11 Vaughns Gap Rd<br />
+                                            Nashville, TN 37205
+                                        </address>
+                                    </a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="pricingModal" class="modal fade">
+    <div class="modal-dialog modal-wide">
+        <div class="modal-content">
+            <div id="pricingModalContent" class="modal-body">
+                <div class="pricingTitle">
+                    Contact Us
+                </div>
+                <p>
+                    We serve tournaments, from large to small!<br />
+                    Contact us now for pricing for your tournament.
+                </p>
+                <div class="pricingPhone">
+                    (630) 446-0685
+                </div>
+                <p class="pricingText">
+                    OR
+                </p>
+                <div class="pricingPhone">
+                    <a href="mailto:info@tourneymachine.com">info@tourneymachine.com</a>
+                </div>
+                <!-- <form>
+                    <input type="email" name="email" placeholder="Enter your email address" class="form-control input-lg"/>
+                    <butt on type="submit" name="submitButton" class="btn btn-lg btn-green">CONTACT ME</button>
+                </form>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div class="container tournamentContainer tournamentContainerBottom">
+            <div class="row">
+                <div class="col-12">
+                    <hr/>
+                </div>
+            </div>
+            <div class="row">
+                
+                        <div class="col-xs-6 col-sm-3">
+                            <a id="ui_Division_Repeater_ctl00_ui_Division_HyperLink" class="well tournamentDivision" href="DivisionEmbed.aspx?IDTournament=h202609281815321263a25d52d99104c&amp;IDDivision=h20261030051647474029e6a1385b847">
+                                <div>
+                                    Men's Indoor
+                                </div>
+                                
+                                    <p>
+                                        <span style="font-size: 9pt;">
+                                            Last Updated<br/>
+                                            Thu 11/12/2026 10:22 PM
+                                        </span>
+                                    </p>
+                                </a>
+                        </div>
+                    
+                        <div class="col-xs-6 col-sm-3">
+                            <a id="ui_Division_Repeater_ctl01_ui_Division_HyperLink" class="well tournamentDivision" href="DivisionEmbed.aspx?IDTournament=h202609281815321263a25d52d99104c&amp;IDDivision=h202610300524050930ef4ded4d6ac46">
+                                <div>
+                                    Co-Ed Indoor
+                                </div>
+                                
+                                    <p>
+                                        <span style="font-size: 9pt;">
+                                            Last Updated<br/>
+                                            Wed 11/11/2026 11:54 PM
+                                        </span>
+                                    </p>
+                                </a>
+                        </div>
+                    
+            </div>
+        </div>
+        
+    <div class="ad-spot hidden-print">
+        <div class="container">
+            <div class="row">
+                <div id="footerAd"></div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    
+
+<!-- JavaScript plugins (requires jQuery) -->
+<script src="//code.jquery.com/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="../../js/vendor/jquery-2.0.0.min.js"><\/script>')</script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../../js/vendor/bootstrap.min.js"></script>
+
+<!-- Optionally enable responsive features in IE8 -->
+<script src="../../js/vendor/respond.min.js"></script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBM1ZO8UqPOy_rH9rrduqI3F3LNLwgN728&sensor=false"></script>
+<script type="text/javascript">
+
+    var markerGroups = {
+        complex: [],
+        dining: [],
+        lodging: [],
+        attraction: []
+    };
+
+    $(document).on("shown.bs.modal", "#tournamentComplexesModal", function () {
+        loadLocations();
+    });
+
+    $(document).on("click", "#place-filters button", function (e) {
+        e.preventDefault();
+
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+        }
+        else {
+            $(this).addClass("active");
+        }
+
+        togglePlaceFilters();
+    });
+
+    $(document).on("click", ".js-list-group-item-place", function (e) {
+        if (!$(e.target).hasClass("btn-toggle") && !$(e.target).hasClass("fa")) {
+
+            var $dropdown = $(this).next(".list-group-item-dropdown");
+            if ($dropdown.hasClass("hidden")) {
+                $dropdown.removeClass("hidden");
+            }
+            else {
+                $dropdown.addClass("hidden");
+            }
+        }
+    });
+
+    $(document).on("click", ".js-list-group-item-place .btn-toggle", function (e) {
+        e.preventDefault();
+
+        var $parentListGroupItemComplex = $(this).parent(".js-list-group-item-place");
+        var icon = $parentListGroupItemComplex.data("icon");
+        var highlightIcon = $parentListGroupItemComplex.data("highlightIcon");
+        var marker = $parentListGroupItemComplex.data("marker");
+
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+            marker.setIcon(icon);
+        }
+        else {
+            $(this).addClass("active");
+            marker.setIcon(highlightIcon);
+        }
+    });
+
+    function loadLocations() {
+
+        var markerLocations = [];
+        var complex0 = {};
+complex0.ID = 'h20260928181637357ee8252fcd12544';
+complex0.name = 'Boost Fit Club';
+complex0.type = 'complex';
+complex0.lat = '36.078787100000';
+complex0.long = '-86.886392000000';
+complex0.icon = 'https://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png';
+complex0.highlightIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+markerLocations.push(complex0);
+
+
+        var map = new google.maps.Map(document.getElementById("map-canvas-complexes"), {
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        //create empty LatLngBounds object
+        var bounds = new google.maps.LatLngBounds();
+        var infowindow = new google.maps.InfoWindow();
+
+        for (i = 0; i < markerLocations.length; i++) {
+            var markerLocation = markerLocations[i];
+
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(markerLocation.lat, markerLocation.long),
+                icon: markerLocation.icon,
+                map: map
+            });
+
+            bounds.extend(marker.position);
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    var markerLocation = markerLocations[i];
+                    infowindow.setContent(markerLocation.name);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+
+            $panelListItem = $(".panel-places .js-list-group-item-place[data-id='" + markerLocation.ID + "']");
+            $panelListItem.data("icon", markerLocation.icon);
+            $panelListItem.data("highlightIcon", markerLocation.highlightIcon);
+            $panelListItem.data("marker", marker);
+
+            markerGroups[markerLocation.type].push(marker);
+        }
+
+        if (markerLocations.length <= 1) {
+            map.setCenter(bounds.getCenter());
+            map.setZoom(14);
+        }
+        else {
+            map.fitBounds(bounds);
+        }
+
+        var currentCenter = map.getCenter();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(currentCenter);
+    }
+
+    function togglePlaceFilters() {
+        var activeFilters = $("#place-filters button.active").length;
+        var typeArray = ["complex", "dining", "lodging", "attraction"];
+
+        // Hide all
+        for (var i = 0; i < typeArray.length; i++) {
+            var type = typeArray[i];
+            for (var j = 0; j < markerGroups[type].length; j++) {
+                var marker = markerGroups[type][j];
+                marker.setVisible(false);
+            }
+        }
+
+        $(".panel-places").hide();
+
+        // Show active
+        $("#place-filters button.active").each(function () {
+            var type = $(this).attr("data-type");
+            for (var i = 0; i < markerGroups[type].length; i++) {
+                var marker = markerGroups[type][i];
+                marker.setVisible(true);
+            }
+
+            $(".panel-places[data-type='" + type + "']").show();
+        });
+
+        // Show all if none active
+        if (activeFilters == 0) {
+            for (var i = 0; i < typeArray.length; i++) {
+                var type = typeArray[i];
+                for (var j = 0; j < markerGroups[type].length; j++) {
+                    var marker = markerGroups[type][j];
+                    marker.setVisible(true);
+                }
+            }
+
+            $(".panel-places").show();
+        }
+    }
+</script>
+
+
+    <script src="min/main.min.js"></script>
+
+    <script src="min/overview.min.js"></script>
+</form>
+</body>
+</html>
