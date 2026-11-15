@@ -223,8 +223,7 @@ def vevent(g, stamp):
     field_txt = f" · Field {field.group(1)}" if field else ""
     if g.get("score"):
         us, them = g["score"]
-        result = "W" if us > them else "L" if us < them else "T"
-        summary = f"⚽ {SHORT_NAME} {us}–{them} {opp_title} ({result}){field_txt}"
+        summary = f"⚽ {SHORT_NAME} {us}–{them} {opp_title}{field_txt}"
     else:
         # Upcoming games show current standings; finished games show the result instead.
         us = f"{SHORT_NAME} (#{g['our_rank']})" if g.get("our_rank") else SHORT_NAME
